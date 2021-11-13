@@ -31,7 +31,6 @@ async function run() {
             const packages = await cursor.toArray();
             res.json(packages);
         })
-
         // app.post('/packages', async (req, res) => {
         //     const package = req.body;
         //     const result = await packagesCollection.insertOne(package);
@@ -43,7 +42,6 @@ async function run() {
             const result = await ordersCollection.insertOne(order);
             res.json(result)
         });
-
         app.get('/users/:email', async (req, res) => {
             const email = req.params.email;
             const query = { email: email };
