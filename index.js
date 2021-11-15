@@ -71,7 +71,12 @@ async function run() {
             const orders = await cursor.toArray();
             res.json(orders);
         })
-        
+        app.post('/packages', async(req,res)=>{
+            const package = req.body;
+            const result = await packagesCollection.insertOne(package)
+            console.log(result)
+            res.json(result)
+        })
 
         
 
