@@ -33,24 +33,45 @@ async function run() {
             res.json(packages);
         })
 
+        // app.get('/orders', async(req,res)=>{
+        //     const email = req.query.email;
+        //     const query = { email: email }
+        //     const cursor = ordersCollection.find(query);
+        //     const order = await cursor.toArray();
+        //     res.json(order);
+        // })
+
+        app.get("/orders", async (req, res) => {
+            const cursor = ordersCollection.find({});
+            orders = await cursor.toArray();
+            res.json(orders);
+          });
+
+    //     app.get('/orders', async(req,res)=>{
+    //     const orders = req.body;
+    //     const cursor = ordersCollection.find(orders)
+    //     const result = await cursor.toArray();
+    //     res.json(result)
+    //    })
+
+
+        app.get("/orders/:email", async (req, res) => {
+            const email = req.params.email;
+            const query = { email: email };
+            const myOrders = await ordersCollection.find(query).toArray();
+            res.json(myOrders);
+          });
+        
+
         app.get('/reviews', async(req,res)=>{
             const review = req.body;
             const cursor = reviewsCollection.find(review)
             const reviews = await cursor.toArray();
             res.json(reviews)
         })
-       app.get('/orders', async(req,res)=>{
-        const orders = req.body;
-        const cursor = ordersCollection.find(orders)
-        const result = await cursor.toArray();
-        res.json(result)
-       })
+    
 
-        app.post('/orders', async (req, res) => {
-            const order = req.body;
-            const result = await ordersCollection.insertOne(order);
-            res.json(result)
-        });
+        
         app.get('/users/:email', async (req, res) => {
             const email = req.params.email;
             const query = { email: email };
@@ -61,18 +82,11 @@ async function run() {
             }
             res.json({ admin: isAdmin });
         })
-
         
 
-        
+       
 
-        app.get('/orders/:email', async(req,res)=>{
-            const email = req.query.email;
-            const query = { email:email }
-            const cursor = ordersCollection.findOne(query);
-            const orders = await cursor.toArray();
-            res.json(orders);
-        })
+        
         app.post('/packages', async(req,res)=>{
             const package = req.body;
             const result = await packagesCollection.insertOne(package)
@@ -80,9 +94,11 @@ async function run() {
             res.json(result)
         })
 
-        
-
-       
+        app.post('/orders', async (req, res) => {
+            const order = req.body;
+            const result = await ordersCollection.insertOne(order);
+            res.json(result)
+        });
 
         app.post('/users', async(req,res)=>{
             const user = req.body;
@@ -97,6 +113,8 @@ async function run() {
             console.log('added user', result);
             res.json(result);
         });
+
+
         app.put('/users/admin', async(req,res)=>{
             const user = req.body;
             console.log('put', user)
@@ -105,6 +123,9 @@ async function run() {
             const result = await usersCollection.updateOne(filter,updateDoc)
             res.json(result)
         })
+
+
+
         app.delete('/orders/:id', async(req,res)=>{
             const id = req.params.id;
             const query = {_id:ObjectId(id)}
