@@ -39,12 +39,13 @@ async function run() {
             const reviews = await cursor.toArray();
             res.json(reviews)
         })
-        // app.post('/packages', async (req, res) => {
-        //     const package = req.body;
-        //     const result = await packagesCollection.insertOne(package);
-        //     console.log(result);
-        //     res.json(result)
-        // });
+       app.get('/orders', async(req,res)=>{
+        const orders = req.body;
+        const cursor = ordersCollection.find(orders)
+        const result = await cursor.toArray();
+        res.json(result)
+       })
+
         app.post('/orders', async (req, res) => {
             const order = req.body;
             const result = await ordersCollection.insertOne(order);
