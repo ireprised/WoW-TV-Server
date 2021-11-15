@@ -62,6 +62,13 @@ async function run() {
             res.json({ admin: isAdmin });
         })
 
+        app.get('/orders/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email: email };
+            const result = await ordersCollection.findOne(query);
+            res.json(result);
+        })
+
         
 
         app.get('/orders', async(req,res)=>{
