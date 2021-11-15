@@ -32,6 +32,13 @@ async function run() {
             const packages = await cursor.toArray();
             res.json(packages);
         })
+
+        app.get('/reviews', async(req,res)=>{
+            const review = req.body;
+            const cursor = reviewsCollection.find(review)
+            const reviews = await cursor.toArray();
+            res.json(reviews)
+        })
         // app.post('/packages', async (req, res) => {
         //     const package = req.body;
         //     const result = await packagesCollection.insertOne(package);
@@ -63,23 +70,11 @@ async function run() {
             const orders = await cursor.toArray();
             res.json(orders);
         })
-        // app.get('/orders', async (req, res) => {
-        //     const email = req.query.email;     
-        //     const query = { email: email }
-        //     const cursor = ordersCollection.find(query);
-        //     const orders = await cursor.toArray();
-        //     res.json(orders);
-        // })
+        
 
         
 
-        // app.get('/orders/:id', async (req, res) => {
-        //     const id = req.params.id;
-        //     console.log('getting specific service', id);
-        //     const query = { _id: ObjectId(id) };
-        //     const orders = await ordersCollection.findOne(query);
-        //     res.json(orders);
-        // })
+       
 
         app.post('/users', async(req,res)=>{
             const user = req.body;
@@ -87,6 +82,13 @@ async function run() {
             console.log(result)
             res.json(result)
         })
+        app.post('/reviews', async (req, res) => {
+            const newReview = req.body;
+            const result = await reviewsCollection.insertOne(newReview);
+            console.log('got new user', req.body);
+            console.log('added user', result);
+            res.json(result);
+        });
         app.put('/users/admin', async(req,res)=>{
             const user = req.body;
             console.log('put', user)
